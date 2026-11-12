@@ -36,7 +36,7 @@ namespace FinalProject
                 }
             }
 
-            //AdminMenu adminMenu = new AdminMenu(loggedInUser);
+            AdminMenu adminMenu = new AdminMenu(loggedInUser);
 
         }
 
