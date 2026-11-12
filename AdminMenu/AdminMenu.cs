@@ -1,6 +1,3 @@
-//Still incomplete cases are constructor not method
-//will fix it soon
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +26,7 @@ namespace FinalProject
             switch (choice)
             {
                 case 1:
-                    // Update Password logic
+                    UpdatePassword(loggedInUser);
                     break;
                 case 2:
                     // Inactivate User logic
@@ -38,41 +35,16 @@ namespace FinalProject
                     // Add User logic
                     break;
                 case 4:
+                    DisplayAllUsers();
 
-                    foreach (var user in DataStorage.Users)
-                    {
-                        Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
-                    }
                     break;
                 case 5:
-                   
-                    int count = 0;
-                    foreach (var user in DataStorage.Users.Where(u => !u.IsActive))
-                    {
-                        count++;
-                        Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
-                    }
-
-                    if (count == 0)
-                    {
-                        Console.WriteLine("No Inactive users found.");
-                    }
+                    DisplayInactiveUsers();
 
                     break;
                 case 6:
+                    DisplayActiveUsers();
 
-                    int activeCount = 0;
-
-                    foreach (var user in DataStorage.Users.Where(u => u.IsActive))
-                    {
-                        activeCount++;
-                        Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
-                    }
-
-                    if (activeCount == 0)
-                    {
-                        Console.WriteLine("No Active users found.");
-                    }
                     break;
                 case 7:
                     // Display Products logic
@@ -83,6 +55,63 @@ namespace FinalProject
                 case 9:
                     Console.WriteLine("Thank you for using the System Menu.");
                     break;
+            }
+
+        }
+
+        public void UpdatePassword(User loggedInUser)
+        {
+            Console.Write("Enter previous password: ");
+            var previousPassword = Console.ReadLine();
+            if (previousPassword == loggedInUser.Password)
+            {
+                Console.Write("Enter new password: ");
+                var newPassword = Console.ReadLine();
+                loggedInUser.Password = newPassword;
+                Console.WriteLine("Password updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Incorrect previous password.");
+            }
+        }
+
+        public void DisplayAllUsers()
+        {
+            foreach (var user in DataStorage.Users)
+                    {
+                        Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
+                    }
+        }
+
+        public void DisplayInactiveUsers()
+        {
+            int count = 0;
+            foreach (var user in DataStorage.Users.Where(u => !u.IsActive))
+            {
+                count++;
+                Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
+            }
+
+            if (count == 0)
+            {
+                Console.WriteLine("No Inactive users found.");
+            }
+        }
+
+        public void DisplayActiveUsers()
+        {
+            int activeCount = 0;
+
+            foreach (var user in DataStorage.Users.Where(u => u.IsActive))
+            {
+                activeCount++;
+                Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
+            }
+
+            if (activeCount == 0)
+            {
+                Console.WriteLine("No Active users found.");
             }
         }
     }
