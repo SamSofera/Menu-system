@@ -59,6 +59,22 @@ namespace FinalProject
 
         }
 
+        public void UpdatePassword(User loggedInUser)
+        {
+            Console.Write("Enter previous password: ");
+            var previousPassword = Console.ReadLine();
+            if (previousPassword == loggedInUser.Password)
+            {
+                Console.Write("Enter new password: ");
+                var newPassword = Console.ReadLine();
+                loggedInUser.Password = newPassword;
+                Console.WriteLine("Password updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Incorrect previous password.");
+            }
+        }
 
         public void DisplayAllUsers()
         {
