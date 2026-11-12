@@ -1,4 +1,7 @@
-﻿using System;
+//Still incomplete cases are constructor not method
+//will fix it soon
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
