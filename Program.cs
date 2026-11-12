@@ -35,7 +35,9 @@ namespace FinalProject
                         break;
                 }
             }
-            
+
+            //AdminMenu adminMenu = new AdminMenu(loggedInUser);
+
         }
 
         private static User Login(string role)
@@ -51,7 +53,7 @@ namespace FinalProject
 
             if (user != null)
             {
-                Console.WriteLine($"\nLogin successful! Welcome, {user.Username}.\n");
+                Console.WriteLine($"\nLogin successful! Welcome, {user.Username}_{user.Role}.\n");
                 return user;
             }
 
