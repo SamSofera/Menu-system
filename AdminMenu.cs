@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,77 +11,139 @@ namespace FinalProject
     {
         public AdminMenu(User loggedInUser)
         {
-            Console.WriteLine("1. Update Password");
-            Console.WriteLine("2. Inactivate User");
-            Console.WriteLine("3. Add User");
-            Console.WriteLine("4. Display All Users");
-            Console.WriteLine("5. Display Inactive Users");
-            Console.WriteLine("6. Display Active Users");
-            Console.WriteLine("7. Display Products");
-            Console.WriteLine("8. Display Orders");
-            Console.WriteLine("9. Logout");
-            Console.WriteLine();
+            string choice = "";
 
-            var choice = int.Parse(Console.ReadLine());
-            switch (choice)
+            while (choice != "9")
             {
-                case 1:
-                    UpdatePassword(loggedInUser);
-                    break;
-                case 2:
-                    // Inactivate User logic
-                    break;
-                case 3:
-                    AddUser();
-                    break;
-                case 4:
-                    DisplayAllUsers();
+                Console.WriteLine("1. Update Password");
+                Console.WriteLine("2. Inactivate User");
+                Console.WriteLine("3. Add User");
+                Console.WriteLine("4. Display All Users");
+                Console.WriteLine("5. Display Inactive Users");
+                Console.WriteLine("6. Display Active Users");
+                Console.WriteLine("7. Display Products");
+                Console.WriteLine("8. Display Orders");
+                Console.WriteLine("9. Logout");
+                Console.WriteLine();
 
-                    break;
-                case 5:
-                    DisplayInactiveUsers();
+                choice = Console.ReadLine();
+                Console.WriteLine();
 
-                    break;
-                case 6:
-                    DisplayActiveUsers();
-
-                    break;
-                case 7:
-                    // Display Products logic
-                    break;
-                case 8:
-                    // Display Orders logic
-                    break;
-                case 9:
-                    Console.WriteLine("Thank you for using the System Menu.");
-                    break;
+                switch (choice)
+                {
+                    case "1":
+                        UpdatePassword(loggedInUser);
+                        break;
+                    case "2":
+                        // Inactivate User logic
+                        break;
+                    case "3":
+                        AddUser();
+                        break;
+                    case "4":
+                        DisplayAllUsers();
+                        break;
+                    case "5":
+                        DisplayInactiveUsers();
+                        break;
+                    case "6":
+                        DisplayActiveUsers();
+                        break;
+                    case "7":
+                        // Display Products logic
+                        break;
+                    case "8":
+                        // Display Orders logic
+                        break;
+                    case "9":
+                        Console.WriteLine("Thank you for using the System Menu.");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Please enter a number from 1 to 9.");
+                        break;
+                }
+                Console.WriteLine();
             }
-
         }
 
         public void UpdatePassword(User loggedInUser)
         {
-            Console.Write("Enter previous password: ");
-            var previousPassword = Console.ReadLine();
-            if (previousPassword == loggedInUser.Password)
+            List<User> choices = new List<User>();
+            choices.Add(loggedInUser);
+
+            foreach (var user in DataStorage.Users)
             {
-                Console.Write("Enter new password: ");
-                var newPassword = Console.ReadLine();
-                loggedInUser.Password = newPassword;
-                Console.WriteLine("Password updated successfully.");
+                if (user.IsActive == true && user != loggedInUser)
+                {
+                    choices.Add(user);
+                }
             }
-            else
+
+            for (int i = 0; i < choices.Count; i++)
             {
-                Console.WriteLine("Incorrect previous password.");
+                if (i == 0)
+                {
+                    Console.WriteLine("1. My account");
+                }
+                else
+                {
+                    Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
+                }
             }
+
+            Console.WriteLine();
+            Console.Write("Please select a user: ");
+            var input = Console.ReadLine();
+
+            User selectedUser = null;
+            for (int i = 0; i < choices.Count; i++)
+            {
+                if (input == (i + 1).ToString())
+                {
+                    selectedUser = choices[i];
+                }
+            }
+
+            if (selectedUser == null)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            Console.Write("Please enter the new password for user " + selectedUser.Username + "_" + selectedUser.Role + ": ");
+            var newPassword = Console.ReadLine();
+
+            if (newPassword == "")
+            {
+                Console.WriteLine("Password cannot be empty.");
+                return;
+            }
+
+            if (newPassword == selectedUser.Password)
+            {
+                Console.WriteLine("New password cannot be the same as the previous password.");
+                return;
+            }
+
+            Console.Write("Please confirm the password: ");
+            var confirmPassword = Console.ReadLine();
+
+            if (newPassword != confirmPassword)
+            {
+                Console.WriteLine("Passwords do not match. Password was not changed.");
+                return;
+            }
+
+            selectedUser.Password = newPassword;
+            Console.WriteLine("Password updated successfully.");
         }
 
         public void DisplayAllUsers()
         {
             foreach (var user in DataStorage.Users)
-                    {
-                        Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
-                    }
+            {
+                Console.WriteLine($"Username: {user.Username}_{user.Role}, Role: {user.Role}, Active: {user.IsActive}");
+            }
         }
 
         public void DisplayInactiveUsers()
@@ -119,10 +181,54 @@ namespace FinalProject
         {
             Console.Write("Enter new username: ");
             var newUsername = Console.ReadLine();
+
+            if (newUsername == "")
+            {
+                Console.WriteLine("Username cannot be empty.");
+                return;
+            }
+
             Console.Write("Enter new password: ");
             var newPassword = Console.ReadLine();
+
+            if (newPassword == "")
+            {
+                Console.WriteLine("Password cannot be empty.");
+                return;
+            }
+
             Console.Write("Enter role (Admin/Warehouse/User): ");
-            var newRole = Console.ReadLine();
+            var roleInput = Console.ReadLine().ToLower().Trim();
+
+            string newRole = "";
+
+            if (roleInput == "admin")
+            {
+                newRole = "Admin";
+            }
+            else if (roleInput == "warehouse")
+            {
+                newRole = "Warehouse";
+            }
+            else if (roleInput == "user")
+            {
+                newRole = "User";
+            }
+            else
+            {
+                Console.WriteLine("Invalid role. Must be Admin, Warehouse, or User.");
+                return;
+            }
+
+            foreach (var user in DataStorage.Users)
+            {
+                if (user.Username == newUsername && user.Role == newRole)
+                {
+                    Console.WriteLine("Username already exists for that role.");
+                    return;
+                }
+            }
+
             DataStorage.Users.Add(new User
             {
                 Username = newUsername,
@@ -130,7 +236,8 @@ namespace FinalProject
                 Role = newRole,
                 IsActive = true
             });
+
             Console.WriteLine("User added successfully.");
-        }   
+        }
     }
 }
