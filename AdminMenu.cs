@@ -1,6 +1,4 @@
-//Incomplete still not looped
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +32,7 @@ namespace FinalProject
                     // Inactivate User logic
                     break;
                 case 3:
-                    // Add User logic
+                    AddUser();
                     break;
                 case 4:
                     DisplayAllUsers();
@@ -116,5 +114,23 @@ namespace FinalProject
                 Console.WriteLine("No Active users found.");
             }
         }
+
+        public void AddUser()
+        {
+            Console.Write("Enter new username: ");
+            var newUsername = Console.ReadLine();
+            Console.Write("Enter new password: ");
+            var newPassword = Console.ReadLine();
+            Console.Write("Enter role (Admin/Warehouse/User): ");
+            var newRole = Console.ReadLine();
+            DataStorage.Users.Add(new User
+            {
+                Username = newUsername,
+                Password = newPassword,
+                Role = newRole,
+                IsActive = true
+            });
+            Console.WriteLine("User added successfully.");
+        }   
     }
 }
