@@ -35,7 +35,7 @@ namespace FinalProject
                         UpdatePassword(loggedInUser);
                         break;
                     case "2":
-                        // Inactivate User logic
+                        InactivateUsers(loggedInUser);
                         break;
                     case "3":
                         AddUser();
@@ -238,6 +238,46 @@ namespace FinalProject
             });
 
             Console.WriteLine("User added successfully.");
+        }
+
+
+        public void InactivateUsers(User loggedInUser)
+        {
+            List<User> choices = new List<User>();
+            foreach (var user in DataStorage.Users)
+            {
+                if (user.IsActive == true && user != loggedInUser)
+                {
+                    choices.Add(user);
+                }
+            }
+            if (choices.Count == 0)
+            {
+                Console.WriteLine("No active users available to inactivate.");
+                return;
+            }
+            for (int i = 0; i < choices.Count; i++)
+            {
+                Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
+            }
+            Console.WriteLine();
+            Console.Write("Please select a user to inactivate: ");
+            var input = Console.ReadLine();
+            User selectedUser = null;
+            for (int i = 0; i < choices.Count; i++)
+            {
+                if (input == (i + 1).ToString())
+                {
+                    selectedUser = choices[i];
+                }
+            }
+            if (selectedUser == null)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+            selectedUser.IsActive = false;
+            Console.WriteLine($"User {selectedUser.Username}_{selectedUser.Role} has been inactivated.");
         }
     }
 }
