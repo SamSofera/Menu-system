@@ -27,7 +27,7 @@ namespace FinalProject
                             loggedInUser = Login("Admin");
                                 if (loggedInUser != null && loggedInUser.Role == "Admin")
                             {
-                                AdminMenu adminMenu = new AdminMenu(loggedInUser);
+                                AdminMenu adminMenu = new AdminMenu(loggedInUser);      
                             }
                             break;
                         case "2":
@@ -35,6 +35,10 @@ namespace FinalProject
                             break;
                         case "3":
                             loggedInUser = Login("User");
+                                if (loggedInUser != null && loggedInUser.Role == "User")
+                            {
+                                UserMenu userMenu = new UserMenu(loggedInUser);
+                            }
                             break;
                         default:
                             Console.WriteLine("\nInvalid choice. Please try again.\n");
