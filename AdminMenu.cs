@@ -260,10 +260,13 @@ namespace FinalProject
             {
                 Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
             }
+            
             Console.WriteLine();
             Console.Write("Please select a user to inactivate: ");
             var input = Console.ReadLine();
+            
             User selectedUser = null;
+            
             for (int i = 0; i < choices.Count; i++)
             {
                 if (input == (i + 1).ToString())
@@ -276,6 +279,7 @@ namespace FinalProject
                 Console.WriteLine("Invalid choice.");
                 return;
             }
+            
             selectedUser.IsActive = false;
             Console.WriteLine($"User {selectedUser.Username}_{selectedUser.Role} has been inactivated.");
         }
