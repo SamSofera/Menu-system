@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A3EC938F-AC48-4051-AD1A-ED966163C386}</ProjectGuid>
+    <ProjectGuid>{3140D25D-2828-47FE-8B51-C97C27B5BB9A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>FinalProject</RootNamespace>
-    <AssemblyName>FinalProject</AssemblyName>
+    <RootNamespace>ConsoleApp1</RootNamespace>
+    <AssemblyName>ConsoleApp1</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminMenu.cs" />
     <Compile Include="DataStorage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
+	<Compile Include="UserMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
