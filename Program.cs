@@ -25,6 +25,11 @@ namespace FinalProject
                     {
                         case "1":
                             loggedInUser = Login("Admin");
+                                if (loggedInUser != null && loggedInUser.Role == "Admin")
+                            {
+                                AdminMenu adminMenu = new AdminMenu(loggedInUser);
+                                adminMenu.DisplayMenu();
+                            }
                             break;
                         case "2":
                             loggedInUser = Login("Warehouse");
@@ -37,8 +42,6 @@ namespace FinalProject
                             break;
                     }
                 }
-
-                AdminMenu adminMenu = new AdminMenu(loggedInUser);
             }
         }
 
