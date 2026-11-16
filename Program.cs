@@ -28,7 +28,6 @@ namespace FinalProject
                                 if (loggedInUser != null && loggedInUser.Role == "Admin")
                             {
                                 AdminMenu adminMenu = new AdminMenu(loggedInUser);
-                                adminMenu.DisplayMenu();
                             }
                             break;
                         case "2":
