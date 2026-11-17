@@ -1,18 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace WarehouseSystem
+namespace ConsoleApp1
 {
-    internal class Program
+    public class WarehouseMenu
     {
-        static void Main(string[] args)
+        public WarehouseMenu(User loggedInUser)
         {
             Console.WriteLine("WAREHOUSE ROLE");
 
             List<string> products = new List<string>();
-
             List<string> accounts = new List<string>();
-            GetInitialAccounts(accounts);
 
             var keepRunning = true;
 
@@ -26,31 +28,7 @@ namespace WarehouseSystem
             }
         }
 
-        public static void GetInitialAccounts(List<string> accounts)
-        {
-            accounts.Add("earl_warehouse|123");
-            accounts.Add("boss_warehouse|321");
-        }
-
-        public static bool Login(List<string> accounts, out string username)
-        {
-            Console.Write("\nPlease enter your username: ");
-            username = Console.ReadLine();
-
-            Console.Write("Please enter your password: ");
-            var password = Console.ReadLine();
-
-            if (accounts.Contains(username + "|" + password))
-            {
-                Console.WriteLine();
-                return true;
-            }
-
-            Console.WriteLine("\nIncorrect username or password.\n");
-            return false;
-        }
-
-        public static void WarehouseMenu(List<string> products, string username)
+        public static void WarehouseMenu (List<string> products, string username)
         {
             var loggedIn = true;
 
@@ -107,7 +85,7 @@ namespace WarehouseSystem
             Console.WriteLine("All products have been successfully created.\n");
         }
 
-        public static void DisplayProducts(List<string> products)
+        public static void DisplayProducts(List<string> product)
         {
             if (products.Count == 0)
             {
