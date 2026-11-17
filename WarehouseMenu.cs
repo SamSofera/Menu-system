@@ -16,42 +16,27 @@ namespace FinalProject
             List<string> products = new List<string>();
             List<string> accounts = new List<string>();
 
-            var keepRunning = true;
+            var choice = "";
 
-            while (keepRunning)
-            {
-                if (Login(accounts, out string username))
-                {
-                    WarehouseMenu(products, username);
-                    keepRunning = false;
-                }
-            }
-        }
-
-        public static void WarehouseMenu (List<string> products, string username)
-        {
-            var loggedIn = true;
-
-            while (loggedIn)
+            while (choice != "3")
             {
                 Console.WriteLine("Please select an option:");
                 Console.WriteLine("1. Add Products");
                 Console.WriteLine("2. Display Products");
                 Console.WriteLine("3. Logout");
 
-                var choice = Console.ReadLine();
+                choice = Console.ReadLine();
                 Console.WriteLine();
 
                 switch (choice)
                 {
                     case "1":
-                        AddProducts(products, username);
+                        AddProducts(products, loggedInUser);
                         break;
                     case "2":
                         DisplayProducts(products);
                         break;
                     case "3":
-                        loggedIn = false;
                         break;
                     default:
                         Console.WriteLine("Invalid input\n");
@@ -60,7 +45,7 @@ namespace FinalProject
             }
         }
 
-        public static void AddProducts(List<string> products, string username)
+        public static void AddProducts(List<string> products, User user)
         {
             Console.Write("Please enter the number of products you want to add: ");
             var count = Convert.ToInt32(Console.ReadLine());
@@ -79,7 +64,7 @@ namespace FinalProject
                              "Quantity: " + quantity + "\n" +
                              "Active: Yes\n" +
                              "Created Date: " + createdDate + "\n" +
-                             "Created By: " + username);
+                             "Created By: " + user);
             }
 
             Console.WriteLine("All products have been successfully created.\n");
@@ -87,15 +72,15 @@ namespace FinalProject
 
         public static void DisplayProducts(List<string> product)
         {
-            if (products.Count == 0)
+            if (product.Count == 0)
             {
                 Console.WriteLine("No Record found\n");
                 return;
             }
 
-            foreach (var product in products)
+            foreach (var products in product)
             {
-                Console.WriteLine(product);
+                Console.WriteLine(products);
                 Console.WriteLine();
             }
         }
