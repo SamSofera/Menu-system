@@ -36,7 +36,7 @@ namespace FinalProject
                             {
                                 WarehouseMenu warehouseMenu = new WarehouseMenu(loggedInUser);
                             }
-                            break
+                            break;
                         case "3":
                             loggedInUser = Login("User");
                                 if (loggedInUser != null && loggedInUser.Role == "User")
