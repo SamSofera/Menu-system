@@ -32,7 +32,11 @@ namespace FinalProject
                             break;
                         case "2":
                             loggedInUser = Login("Warehouse");
-                            break;
+                            if (loggedInUser != null && loggedInUser.Role == "Warehouse")
+                            {
+                                WarehouseMenu warehouseMenu = new WarehouseMenu(loggedInUser);
+                            }
+                            break
                         case "3":
                             loggedInUser = Login("User");
                                 if (loggedInUser != null && loggedInUser.Role == "User")
