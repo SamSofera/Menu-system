@@ -25,21 +25,21 @@ namespace FinalProject
                 Console.WriteLine("2. Display Products");
                 Console.WriteLine("3. Logout");
 
-                choice = Console.ReadLine();
                 Console.WriteLine();
+                choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        AddProducts(products, loggedInUser);
+                        AddProducts(DataStorage.Products, loggedInUser);
                         break;
                     case "2":
-                        DisplayProducts(products);
+                        WarehouseMenu.DisplayProducts.DisplayProduct(DataStorage.Products);
                         break;
                     case "3":
                         break;
                     default:
-                        Console.WriteLine("Invalid input\n");
+                        Console.WriteLine("\nInvalid input");
                         break;
                 }
             }
@@ -60,30 +60,39 @@ namespace FinalProject
 
                 var createdDate = DateTime.Now.ToString("M/d/yyyy h:mm tt");
 
-                products.Add("Product Name: " + name + "\n" +
-                             "Quantity: " + quantity + "\n" +
-                             "Active: Yes\n" +
-                             "Created Date: " + createdDate + "\n" +
-                             "Created By: " + user);
+                products.Add(name + "|" + quantity + "|" + createdDate + "|" + user.Username);
             }
 
-            Console.WriteLine("All products have been successfully created.\n");
+            Console.WriteLine("\nAll products have been successfully created.");
         }
 
-        public static void DisplayProducts(List<string> product)
+        public class DisplayProducts
         {
-            if (product.Count == 0)
-            {
-                Console.WriteLine("No Record found\n");
-                return;
-            }
+            public string Product { get; set; }
+            public int Quantity { get; set; }
 
-            foreach (var products in product)
+            public static void DisplayProduct(List<string> product)
             {
-                Console.WriteLine(products);
-                Console.WriteLine();
+
+                if (product.Count == 0)
+                {
+                    Console.WriteLine("No Record found\n");
+                    return;
+                }
+
+                foreach (var products in product)
+                {
+                    string[] info = products.Split('|');
+
+                    Console.WriteLine("Product Name: " + info[0]);
+                    Console.WriteLine("Quantity: " + info[1]);
+                    Console.WriteLine("Active: Yes");
+                    Console.WriteLine("Created Date: " + info[2]);
+                    Console.WriteLine("Created By: " + info[3]);
+                    Console.WriteLine();
+                }
             }
         }
+
     }
-    
 }
