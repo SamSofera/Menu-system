@@ -20,7 +20,7 @@ namespace FinalProject
                 Console.WriteLine("2. Display Order");
                 Console.WriteLine("3. Logout");
 
-                Console.Write("Select an option: ");
+                Console.Write("\nSelect an option: ");
                 choice = Convert.ToInt32(Console.ReadLine());
 
                 switch (choice)
