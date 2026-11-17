@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +11,6 @@ namespace FinalProject
     {
         public UserMenu(User loggedInUser)
         {
-            List<string> products = new List<string>();
-            List<string> orders = new List<string>();
-
-            products.Add("Bread|30");
-            products.Add("Mineral Water|20");
-            products.Add("Rebisco Chocolate Flavor|50");
-
             int choice = 0;
 
             while (choice != 3)
@@ -33,11 +26,11 @@ namespace FinalProject
                 switch (choice)
                 {
                     case 1:
-                        Order(products, orders);
+                        Order(DataStorage.Products, DataStorage.Orders);
                         break;
 
                     case 2:
-                        DisplayOrder(orders);
+                        DisplayOrders.DisplayOrder(DataStorage.Orders);
                         break;
 
                     case 3:
@@ -78,7 +71,7 @@ namespace FinalProject
                 {
                     stock = stock - quantity;
 
-                    products[choice - 1] = info[0] + "|" + stock;
+                    products[choice - 1] = info[0] + "|" + stock + "|" + info[2] + "|" + info[3];
 
                     orders.Add(info[0] + "|" + quantity);
 
@@ -99,23 +92,26 @@ namespace FinalProject
             }
         }
 
-        static void DisplayOrder(List<string> orders)
+        public class DisplayOrders
         {
-            Console.WriteLine("\nORDER LIST");
-
-            if (orders.Count > 0)
+            public static void DisplayOrder(List<string> orders)
             {
-                foreach (string order in orders)
+                Console.WriteLine("\nORDER LIST");
+
+                if (orders.Count > 0)
                 {
-                    string[] info = order.Split('|');
+                    foreach (string order in orders)
+                    {
+                        string[] info = order.Split('|');
 
-                    Console.WriteLine("Product Name: " + info[0]);
-                    Console.WriteLine("Quantity: " + info[1]);
+                        Console.WriteLine("Product Name: " + info[0]);
+                        Console.WriteLine("Quantity: " + info[1]);
+                    }
                 }
-            }
-            else
-            {
-                Console.WriteLine("No orders found.");
+                else
+                {
+                    Console.WriteLine("No orders found.");
+                }
             }
         }
     }
