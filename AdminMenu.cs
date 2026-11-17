@@ -50,10 +50,10 @@ namespace FinalProject
                         DisplayActiveUsers();
                         break;
                     case "7":
-                        // Display Products logic
+                        WarehouseMenu.DisplayProducts.DisplayProduct(DataStorage.Products);
                         break;
                     case "8":
-                        // Display Orders logic
+                        UserMenu.DisplayOrders.DisplayOrder(DataStorage.Orders);
                         break;
                     case "9":
                         Console.WriteLine("Thank you for using the System Menu.");
