@@ -82,15 +82,17 @@ namespace FinalProject
                     Console.Write(i + ". Please enter the quantity of the product: ");
                     quantity = Console.ReadLine().Trim();
 
-                    if (IsNumber(quantity))
+                    if (IsNumber(quantity) && quantity.Length <= 6)
                     {
                         validQuantity = true;
                     }
                     else
                     {
-                        Console.WriteLine("Quantity must be a whole number.");
+                        Console.WriteLine("\nQuantity must be a whole number.");
                     }
                 }
+
+                int amount = Convert.ToInt32(quantity);
 
                 int index = FindProduct(products, name);
 
@@ -98,12 +100,12 @@ namespace FinalProject
                 {
                     var createdDate = DateTime.Now.ToString("M/d/yyyy h:mm tt");
 
-                    products.Add(name + "|" + quantity + "|" + createdDate + "|" + user.Username);
+                    products.Add(name + "|" + amount + "|" + createdDate + "|" + user.Username);
                 }
                 else
                 {
                     string[] info = products[index].Split('|');
-                    int newStock = Convert.ToInt32(info[1]) + Convert.ToInt32(quantity);
+                    int newStock = Convert.ToInt32(info[1]) + amount;
 
                     products[index] = info[0] + "|" + newStock + "|" + info[2] + "|" + info[3];
 
