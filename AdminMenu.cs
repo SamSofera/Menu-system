@@ -113,7 +113,7 @@ namespace FinalProject
             Console.Write("Please enter the new password for user " + selectedUser.Username + "_" + selectedUser.Role + ": ");
             var newPassword = Console.ReadLine();
 
-            if (newPassword == "")
+            if (string.IsNullOrWhiteSpace(newPassword))
             {
                 Console.WriteLine("Password cannot be empty.");
                 return;
@@ -180,9 +180,9 @@ namespace FinalProject
         public void AddUser()
         {
             Console.Write("Enter new username: ");
-            var newUsername = Console.ReadLine();
+            var newUsername = (Console.ReadLine() ?? "").Trim();
 
-            if (newUsername == "")
+            if (string.IsNullOrWhiteSpace(newUsername))
             {
                 Console.WriteLine("Username cannot be empty.");
                 return;
@@ -191,7 +191,7 @@ namespace FinalProject
             Console.Write("Enter new password: ");
             var newPassword = Console.ReadLine();
 
-            if (newPassword == "")
+            if (string.IsNullOrWhiteSpace(newPassword))
             {
                 Console.WriteLine("Password cannot be empty.");
                 return;
@@ -222,7 +222,7 @@ namespace FinalProject
 
             foreach (var user in DataStorage.Users)
             {
-                if (user.Username == newUsername && user.Role == newRole)
+                if (string.Equals(user.Username, newUsername, StringComparison.OrdinalIgnoreCase) && user.Role == newRole)
                 {
                     Console.WriteLine("Username already exists for that role.");
                     return;
@@ -260,13 +260,13 @@ namespace FinalProject
             {
                 Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
             }
-            
+
             Console.WriteLine();
             Console.Write("Please select a user to inactivate: ");
             var input = Console.ReadLine();
-            
+
             User selectedUser = null;
-            
+
             for (int i = 0; i < choices.Count; i++)
             {
                 if (input == (i + 1).ToString())
@@ -279,7 +279,7 @@ namespace FinalProject
                 Console.WriteLine("Invalid choice.");
                 return;
             }
-            
+
             selectedUser.IsActive = false;
             Console.WriteLine($"User {selectedUser.Username}_{selectedUser.Role} has been inactivated.");
         }
