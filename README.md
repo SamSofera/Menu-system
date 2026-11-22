@@ -1,2 +1,1 @@
-# Menu-system
-FOP Final project
+FOP final project
