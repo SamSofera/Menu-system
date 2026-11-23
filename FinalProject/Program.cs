@@ -1,3 +1,10 @@
+// Group 3
+// Torres
+// Suarez
+// Gruezo
+// Sofera
+// Peñamora
+
 using System;
 using System.Linq;
 
