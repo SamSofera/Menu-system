@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FinalProject
 {
@@ -13,10 +9,7 @@ namespace FinalProject
         {
             Console.WriteLine("WAREHOUSE ROLE");
 
-            List<string> products = new List<string>();
-            List<string> accounts = new List<string>();
-
-            var choice = "";
+            string choice = "";
 
             while (choice != "3")
             {
@@ -24,8 +17,8 @@ namespace FinalProject
                 Console.WriteLine("1. Add Products");
                 Console.WriteLine("2. Display Products");
                 Console.WriteLine("3. Logout");
-
                 Console.WriteLine();
+
                 choice = Console.ReadLine();
 
                 switch (choice)
@@ -34,7 +27,7 @@ namespace FinalProject
                         AddProducts(DataStorage.Products, loggedInUser);
                         break;
                     case "2":
-                        WarehouseMenu.DisplayProducts.DisplayProduct(DataStorage.Products);
+                        DisplayProducts(DataStorage.Products);
                         break;
                     case "3":
                         break;
@@ -45,28 +38,29 @@ namespace FinalProject
             }
         }
 
-        public static void AddProducts(List<string> products, User user)
+        public static void AddProducts(List<Product> products, User user)
         {
             Console.Write("Please enter the number of products you want to add: ");
-            var count = Convert.ToInt32(Console.ReadLine());
+            int count;
+
+            while (!int.TryParse(Console.ReadLine(), out count) || count < 1)
+            {
+                Console.Write("Please enter a whole number greater than 0: ");
+            }
 
             for (int i = 1; i <= count; i++)
             {
                 string name = "";
                 bool validName = false;
 
-                while (validName == false)
+                while (!validName)
                 {
                     Console.Write(i + ". Please enter the name of the product: ");
-                    name = Console.ReadLine().Trim();
+                    name = (Console.ReadLine() ?? "").Trim();
 
                     if (name == "")
                     {
                         Console.WriteLine("Product name cannot be empty.");
-                    }
-                    else if (name.Contains("|"))
-                    {
-                        Console.WriteLine("Product name cannot contain the \"|\" character.");
                     }
                     else
                     {
@@ -74,15 +68,15 @@ namespace FinalProject
                     }
                 }
 
-                string quantity = "";
+                string quantityText = "";
                 bool validQuantity = false;
 
-                while (validQuantity == false)
+                while (!validQuantity)
                 {
                     Console.Write(i + ". Please enter the quantity of the product: ");
-                    quantity = Console.ReadLine().Trim();
+                    quantityText = (Console.ReadLine() ?? "").Trim();
 
-                    if (IsNumber(quantity) && quantity.Length <= 6)
+                    if (IsNumber(quantityText) && quantityText.Length <= 6)
                     {
                         validQuantity = true;
                     }
@@ -92,43 +86,41 @@ namespace FinalProject
                     }
                 }
 
-                int amount = Convert.ToInt32(quantity);
+                int amount = int.Parse(quantityText);
 
-                int index = FindProduct(products, name);
+                Product existing = FindProduct(products, name);
 
-                if (index == -1)
+                if (existing == null)
                 {
-                    var createdDate = DateTime.Now.ToString("M/d/yyyy h:mm tt");
-
-                    products.Add(name + "|" + amount + "|" + createdDate + "|" + user.Username);
+                    products.Add(new Product
+                    {
+                        Name = name,
+                        Quantity = amount,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = user.Username
+                    });
                 }
                 else
                 {
-                    string[] info = products[index].Split('|');
-                    int newStock = Convert.ToInt32(info[1]) + amount;
-
-                    products[index] = info[0] + "|" + newStock + "|" + info[2] + "|" + info[3];
-
-                    Console.WriteLine(info[0] + " already exists. Quantity was added. New quantity: " + newStock);
+                    existing.Quantity += amount;
+                    Console.WriteLine(existing.Name + " already exists. Quantity was added. New quantity: " + existing.Quantity);
                 }
             }
 
             Console.WriteLine("\nAll products have been successfully created or updated.");
         }
 
-        static int FindProduct(List<string> products, string name)
+        static Product FindProduct(List<Product> products, string name)
         {
-            for (int i = 0; i < products.Count; i++)
+            foreach (Product product in products)
             {
-                string[] info = products[i].Split('|');
-
-                if (info[0].ToLower() == name.ToLower())
+                if (string.Equals(product.Name, name, StringComparison.OrdinalIgnoreCase))
                 {
-                    return i;
+                    return product;
                 }
             }
 
-            return -1;
+            return null;
         }
 
         static bool IsNumber(string text)
@@ -149,40 +141,23 @@ namespace FinalProject
             return true;
         }
 
-        public class DisplayProducts
+        public static void DisplayProducts(List<Product> products)
         {
-            public string Product { get; set; }
-            public int Quantity { get; set; }
-
-            public static void DisplayProduct(List<string> product)
+            if (products.Count == 0)
             {
+                Console.WriteLine("No Record found\n");
+                return;
+            }
 
-                if (product.Count == 0)
-                {
-                    Console.WriteLine("No Record found\n");
-                    return;
-                }
-
-                foreach (var products in product)
-                {
-                    string[] info = products.Split('|');
-
-                    Console.WriteLine("Product Name: " + info[0]);
-                    Console.WriteLine("Quantity: " + info[1]);
-                    if (info[1] == "0")
-                    {
-                        Console.WriteLine("Active: False");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Active: True");
-                    }
-                    Console.WriteLine("Created Date: " + info[2]);
-                    Console.WriteLine("Created By: " + info[3]);
-                    Console.WriteLine();
-                }
+            foreach (Product product in products)
+            {
+                Console.WriteLine("Product Name: " + product.Name);
+                Console.WriteLine("Quantity: " + product.Quantity);
+                Console.WriteLine("Active: " + product.IsActive);
+                Console.WriteLine("Created Date: " + product.CreatedDate.ToString("M/d/yyyy h:mm tt"));
+                Console.WriteLine("Created By: " + product.CreatedBy);
+                Console.WriteLine();
             }
         }
-
     }
 }
