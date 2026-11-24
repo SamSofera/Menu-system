@@ -87,7 +87,7 @@ namespace FinalProject
                 }
                 else
                 {
-                    Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
+                    Console.WriteLine($"{i + 1}. {choices[i].Username}_{choices[i].Role}");
                 }
             }
 
@@ -110,7 +110,7 @@ namespace FinalProject
                 return;
             }
 
-            Console.Write("Please enter the new password for user " + selectedUser.Username + "_" + selectedUser.Role + ": ");
+            Console.Write($"Please enter the new password for user {selectedUser.Username}_{selectedUser.Role}: ");
             var newPassword = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(newPassword))
@@ -280,7 +280,7 @@ namespace FinalProject
             }
             for (int i = 0; i < choices.Count; i++)
             {
-                Console.WriteLine((i + 1) + ". " + choices[i].Username + "_" + choices[i].Role);
+                Console.WriteLine($"{i + 1}. {choices[i].Username}_{choices[i].Role}");
             }
 
             Console.WriteLine();
