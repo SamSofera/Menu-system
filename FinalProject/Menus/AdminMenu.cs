@@ -16,7 +16,7 @@ namespace FinalProject
             while (choice != "9")
             {
                 Console.WriteLine("1. Update Password");
-                Console.WriteLine("2. Inactivate User");
+                Console.WriteLine("2. Deactivate User");
                 Console.WriteLine("3. Add User");
                 Console.WriteLine("4. Display All Users");
                 Console.WriteLine("5. Display Inactive Users");
@@ -35,7 +35,7 @@ namespace FinalProject
                         UpdatePassword(loggedInUser);
                         break;
                     case "2":
-                        InactivateUsers(loggedInUser);
+                        DeactivateUsers(loggedInUser);
                         break;
                     case "3":
                         AddUser();
@@ -50,10 +50,10 @@ namespace FinalProject
                         DisplayActiveUsers();
                         break;
                     case "7":
-                        WarehouseMenu.DisplayProducts.DisplayProduct(DataStorage.Products);
+                        WarehouseMenu.DisplayProducts(DataStorage.Products);
                         break;
                     case "8":
-                        UserMenu.DisplayOrders.DisplayOrder(DataStorage.Orders);
+                        UserMenu.DisplayOrders(DataStorage.Orders);
                         break;
                     case "9":
                         Console.WriteLine("Thank you for using the System Menu.");
@@ -241,7 +241,7 @@ namespace FinalProject
         }
 
 
-        public void InactivateUsers(User loggedInUser)
+        public void DeactivateUsers(User loggedInUser)
         {
             List<User> choices = new List<User>();
             foreach (var user in DataStorage.Users)
