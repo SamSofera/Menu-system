@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Menus\AdminMenu.cs" />
     <Compile Include="Data\DataStorage.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Menus\UserMenu.cs" />
