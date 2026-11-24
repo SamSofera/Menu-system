@@ -179,67 +179,89 @@ namespace FinalProject
 
         public void AddUser()
         {
-            Console.Write("Enter new username: ");
-            var newUsername = (Console.ReadLine() ?? "").Trim();
-
-            if (string.IsNullOrWhiteSpace(newUsername))
+            while (true)
             {
-                Console.WriteLine("Username cannot be empty.");
-                return;
-            }
+                Console.Write("Enter new username: ");
+                var newUsername = Console.ReadLine().Trim();
 
-            Console.Write("Enter new password: ");
-            var newPassword = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(newPassword))
-            {
-                Console.WriteLine("Password cannot be empty.");
-                return;
-            }
-
-            Console.Write("Enter role (Admin/Warehouse/User): ");
-            var roleInput = Console.ReadLine().ToLower().Trim();
-
-            string newRole = "";
-
-            if (roleInput == "admin")
-            {
-                newRole = "Admin";
-            }
-            else if (roleInput == "warehouse")
-            {
-                newRole = "Warehouse";
-            }
-            else if (roleInput == "user")
-            {
-                newRole = "User";
-            }
-            else
-            {
-                Console.WriteLine("Invalid role. Must be Admin, Warehouse, or User.");
-                return;
-            }
-
-            foreach (var user in DataStorage.Users)
-            {
-                if (string.Equals(user.Username, newUsername, StringComparison.OrdinalIgnoreCase) && user.Role == newRole)
+                if (string.IsNullOrWhiteSpace(newUsername))
                 {
-                    Console.WriteLine("Username already exists for that role.");
-                    return;
+                    Console.WriteLine("Username cannot be empty.");
+                    continue;
                 }
+
+                string newPassword;
+
+                while (true)
+                {
+                    Console.Write("Enter new password: ");
+                    newPassword = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(newPassword))
+                    {
+                        Console.WriteLine("Password cannot be empty.");
+                        continue;
+                    }
+                    if (newPassword.Any(char.IsWhiteSpace))
+                    {
+                        Console.WriteLine("Password cannot contain space.");
+                        continue;
+                    }
+
+                    break;
+                }
+                Console.Write("Enter role (Admin/Warehouse/User): ");
+                var roleInput = Console.ReadLine().ToLower().Trim();
+
+                string newRole = "";
+
+                if (roleInput == "admin")
+                {
+                    newRole = "Admin";
+                }
+                else if (roleInput == "warehouse")
+                {
+                    newRole = "Warehouse";
+                }
+                else if (roleInput == "user")
+                {
+                    newRole = "User";
+                }
+                else
+                {
+                    Console.WriteLine("Invalid role. Must be Admin, Warehouse, or User.");
+                    continue;
+                }
+
+                bool exists = false;
+
+                foreach (var user in DataStorage.Users)
+                {
+                    if (string.Equals(user.Username, newUsername, StringComparison.OrdinalIgnoreCase))
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (exists)
+                {
+                    Console.WriteLine("Username already exists.");
+                    continue;
+                }
+
+                DataStorage.Users.Add(new User
+                {
+                    Username = newUsername,
+                    Password = newPassword,
+                    Role = newRole,
+                    IsActive = true
+                });
+
+                Console.WriteLine("User added successfully.");
+                return;
             }
-
-            DataStorage.Users.Add(new User
-            {
-                Username = newUsername,
-                Password = newPassword,
-                Role = newRole,
-                IsActive = true
-            });
-
-            Console.WriteLine("User added successfully.");
         }
-
 
         public void DeactivateUsers(User loggedInUser)
         {
