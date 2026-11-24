@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FinalProject
 {
@@ -15,7 +19,7 @@ namespace FinalProject
             Users.Add(new User { Username = "Allen", Password = "ABC", Role = "Warehouse", IsActive = true });
             Users.Add(new User { Username = "Diddy", Password = "XYZ", Role = "User", IsActive = true });
 
-            DateTime startDate = new DateTime(2026, 1, 1, 8, 0, 0);
+            DateTime startDate = new DateTime(2026, 11, 25, 4, 1, 4);
 
             Products.Add(new Product { Name = "Bread", Quantity = 30, CreatedDate = startDate, CreatedBy = "Allen" });
             Products.Add(new Product { Name = "Mineral Water", Quantity = 20, CreatedDate = startDate, CreatedBy = "Allen" });
