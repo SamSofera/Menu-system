@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FinalProject
 {
@@ -54,55 +50,35 @@ namespace FinalProject
 
             for (int i = 1; i <= count; i++)
             {
-                string name = "";
-                bool validName = false;
+                Console.Write(i + ". Please enter the name of the product: ");
+                string name = Console.ReadLine().Trim();
 
-                while (!validName)
+                while (name == "")
                 {
+                    Console.WriteLine("Product name cannot be empty.");
                     Console.Write(i + ". Please enter the name of the product: ");
-                    name = (Console.ReadLine() ?? "").Trim();
-
-                    if (name == "")
-                    {
-                        Console.WriteLine("Product name cannot be empty.");
-                    }
-                    else
-                    {
-                        validName = true;
-                    }
+                    name = Console.ReadLine().Trim();
                 }
 
-                string quantityText = "";
-                bool validQuantity = false;
+                Console.Write(i + ". Please enter the quantity of the product: ");
+                int amount;
 
-                while (!validQuantity)
+                while (!int.TryParse(Console.ReadLine(), out amount) || amount < 0)
                 {
+                    Console.WriteLine("\nQuantity must be a whole number.");
                     Console.Write(i + ". Please enter the quantity of the product: ");
-                    quantityText = (Console.ReadLine() ?? "").Trim();
-
-                    if (IsNumber(quantityText) && quantityText.Length <= 6)
-                    {
-                        validQuantity = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("\nQuantity must be a whole number.");
-                    }
                 }
-
-                int amount = int.Parse(quantityText);
 
                 Product existing = FindProduct(products, name);
 
                 if (existing == null)
                 {
-                    products.Add(new Product
-                    {
-                        Name = name,
-                        Quantity = amount,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = user.Username
-                    });
+                    Product newProduct = new Product();
+                    newProduct.Name = name;
+                    newProduct.Quantity = amount;
+                    newProduct.CreatedDate = DateTime.Now;
+                    newProduct.CreatedBy = user.Username;
+                    products.Add(newProduct);
                 }
                 else
                 {
@@ -118,31 +94,13 @@ namespace FinalProject
         {
             foreach (Product product in products)
             {
-                if (string.Equals(product.Name, name, StringComparison.OrdinalIgnoreCase))
+                if (product.Name.ToLower() == name.ToLower())
                 {
                     return product;
                 }
             }
 
             return null;
-        }
-
-        static bool IsNumber(string text)
-        {
-            if (text == "")
-            {
-                return false;
-            }
-
-            foreach (char c in text)
-            {
-                if (c < '0' || c > '9')
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         public static void DisplayProducts(List<Product> products)
