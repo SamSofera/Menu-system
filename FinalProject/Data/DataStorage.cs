@@ -11,9 +11,9 @@ namespace FinalProject
 
         static DataStorage()
         {
-            Users.Add(new User { Username = "Sam", Password = "ABCD", Role = "Admin", IsActive = true });
-            Users.Add(new User { Username = "Allen", Password = "ABC", Role = "Warehouse", IsActive = true });
-            Users.Add(new User { Username = "Diddy", Password = "XYZ", Role = "User", IsActive = true });
+            Users.Add(new User { Username = "a", Password = "1234", Role = "Admin", IsActive = true });
+            Users.Add(new User { Username = "w", Password = "1234", Role = "Warehouse", IsActive = true });
+            Users.Add(new User { Username = "u", Password = "1234", Role = "User", IsActive = true });
 
             DateTime startDate = new DateTime(2026, 11, 25, 4, 1, 4);
 
